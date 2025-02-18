@@ -2,12 +2,14 @@
 
 # Example Next.js Ecommerce Store for Snowplow
 
+[![License][license-image]][license]
+
 An example retail & ecommerce store, powered by Next.js and instrumented with Snowplow tracking.
 
 Includes:
 
-- Client-server stitched events.
-- Wide coverage with Snowplow ecommerce events
+- Client-server stitched events
+- Wide coverage of Snowplow ecommerce events
 
 ## Running locally
 
