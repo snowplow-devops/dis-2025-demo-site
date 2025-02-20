@@ -52,6 +52,12 @@ $contentStep: $brandHeaderHeight + $headerHeight + $footerHeight;
     display: flex;
     align-items: center;
 
+    button {
+        font-weight: 500;
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
     a {
         font-weight: 500;
         margin-left: 8px;
