@@ -13,7 +13,7 @@ export default async function handler(
   res: NextApiResponse<any>
 ) {
   if (req.method === "POST") {
-    const { cartProducts, cartId } = req.body;
+    const { cartProducts, cartId, userId } = req.body;
     const lineItems = productsToStripeLineItems(cartProducts);
     const snowplowIdCookie = getSnowplowCookieValue(req.cookies);
 
@@ -27,6 +27,7 @@ export default async function handler(
           cartProducts: JSON.stringify(cartProducts),
           snowplowIdCookie,
           cartId,
+          userId,
         },
       });
 

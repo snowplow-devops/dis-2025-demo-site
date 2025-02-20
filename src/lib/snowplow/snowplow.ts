@@ -1,4 +1,8 @@
-import { addGlobalContexts, newTracker } from "@snowplow/browser-tracker";
+import {
+  addGlobalContexts,
+  newTracker,
+  setUserId,
+} from "@snowplow/browser-tracker";
 import { SnowplowEcommercePlugin } from "@snowplow/browser-plugin-snowplow-ecommerce";
 import { PerformanceNavigationTimingPlugin } from "@snowplow/browser-plugin-performance-navigation-timing";
 import { SiteTrackingPlugin } from "@snowplow/browser-plugin-site-tracking";

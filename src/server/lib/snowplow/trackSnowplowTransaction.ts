@@ -17,7 +17,7 @@ export function trackSnowplowTransaction({
   session: Stripe.Checkout.Session;
 }) {
   /* Metadata added on checkout_session when the Stripe session starts. */
-  const { cartProducts, snowplowIdCookie } = session.metadata as Record<
+  const { cartProducts, snowplowIdCookie, userId } = session.metadata as Record<
     string,
     string
   >;
@@ -27,6 +27,7 @@ export function trackSnowplowTransaction({
   const sessionId = snowplowIdCookieValues[5];
   snowplowTracker.setDomainUserId(domainUserId);
   snowplowTracker.setSessionId(sessionId);
+  snowplowTracker.setUserId(userId);
 
   if (session.status === "complete" && session.payment_status === "paid") {
     const products: Product[] = JSON.parse(cartProducts);

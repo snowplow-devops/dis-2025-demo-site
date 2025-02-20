@@ -5,11 +5,13 @@ import { useCartStore } from "@/store";
 import { Recommendations } from "../recommendations";
 import { useEffect } from "react";
 import { trackCheckoutStepSpec } from "@/lib/tracking/snowplow";
+import { useUserStore } from "@/store/userStore";
 
 export function Cart() {
   const cartProducts = useCartStore((state) => state.cartProducts);
   const totalAmount = useCartStore((state) => state.totalAmount);
   const cartId = useCartStore((state) => state.cartId);
+  const userId = useUserStore((state) => state.userId);
 
   async function handleCheckout() {
     const res = await fetch("/api/checkout_session", {
@@ -21,6 +23,7 @@ export function Cart() {
         cartProducts,
         totalAmount,
         cartId,
+        userId,
       }),
     });
     trackCheckoutStepSpec({

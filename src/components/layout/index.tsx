@@ -4,8 +4,10 @@ import Image from "next/image";
 import { BsBag, BsSearch } from "react-icons/bs";
 import { Inter } from "next/font/google";
 import { useCartStore } from "@/store";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useUserStore } from "@/store/userStore";
+import { setUserId } from "@snowplow/browser-tracker";
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -15,8 +17,21 @@ const inter = Inter({
 export function Layout({ children }: { children: React.ReactNode }) {
   const [searchInputValue, setSearchInputValue] = useState("");
   const router = useRouter();
+  const email = useUserStore((state) => state.email);
+  const clear = useUserStore((state) => state.clear);
+
+  // Prevents hydration warning issues https://github.com/vercel/next.js/issues/58493
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const numberOfProducts = useCartStore((state) => state.numberOfProducts);
+
+  function handleLogout() {
+    clear();
+    setUserId(undefined);
+  }
 
   function handleSearchSubmit(event: FormEvent) {
     event.preventDefault();
@@ -44,9 +59,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
             |
           </div>
           <div className={styles.brandLinks}>
-            <Link target="_blank" href="https://snowplow.io/">
-              Sign up
-            </Link>
+            {isClient ? (
+              email ? (
+                <button onClick={handleLogout}>Log out</button>
+              ) : (
+                <Link href="/sign-in">Sign in</Link>
+              )
+            ) : null}
           </div>
         </div>
         <header className={styles.header}>
