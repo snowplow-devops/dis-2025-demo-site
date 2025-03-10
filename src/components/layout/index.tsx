@@ -131,7 +131,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           <div className={styles.footerInternal}>
             <div className={styles.subFooter}>
               <div className={styles.copyright}>
-                © 2023 Snowplow | All rights reserved
+                © 2025 Snowplow | All rights reserved
               </div>
               <div className={styles.policies}>
                 <ul>

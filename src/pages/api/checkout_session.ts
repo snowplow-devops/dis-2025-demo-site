@@ -1,40 +1,31 @@
-import Stripe from "stripe";
-import { config } from "@/config";
 import { NextApiRequest, NextApiResponse } from "next";
-import { productsToStripeLineItems } from "@/server/utils/stripe";
 import { getSnowplowCookieValue } from "@/server/lib/snowplow/utils";
-
-const stripe = new Stripe(config.stripe.SECRET_KEY as string, {
-  apiVersion: config.stripe.API_VERSION,
-});
+import { trackSnowplowTransaction } from "@/server/lib/snowplow";
+import { CheckoutSessionRequestBody } from "@/server/types";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
   if (req.method === "POST") {
-    const { cartProducts, cartId, userId } = req.body;
-    const lineItems = productsToStripeLineItems(cartProducts);
-    const snowplowIdCookie = getSnowplowCookieValue(req.cookies);
-
     try {
-      const session = await stripe.checkout.sessions.create({
-        line_items: lineItems,
-        mode: "payment",
-        success_url: `${req.headers.origin}/?success=true`,
-        cancel_url: `${req.headers.origin}/?canceled=true`,
-        metadata: {
-          cartProducts: JSON.stringify(cartProducts),
-          snowplowIdCookie,
-          cartId,
-          userId,
-        },
-      });
+      const { cartProducts, cartId, userId, totalAmount } =
+        req.body as CheckoutSessionRequestBody;
+      const snowplowIdCookie = getSnowplowCookieValue(req.cookies);
 
-      res.json({ url: session.url, session: session });
+      if (snowplowIdCookie) {
+        trackSnowplowTransaction({
+          cartProducts,
+          snowplowIdCookie,
+          userId,
+          cartId,
+          totalAmount,
+        });
+        res.json({ id: cartId, ok: true });
+      }
     } catch (err) {
-      // @ts-ignore
-      res.status(err.statusCode || 500).json(err.message);
+      const message = err instanceof Error ? err.message : String(err);
+      res.status(500).json(message);
     }
   } else {
     res.setHeader("Allow", "POST");

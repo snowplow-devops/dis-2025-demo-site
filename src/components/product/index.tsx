@@ -13,7 +13,6 @@ interface ProductProps {
 export function Product({ product }: ProductProps) {
   const addProductToCart = useCartStore((state) => state.addProductToCart);
   const totalAmount = useCartStore((state) => state.totalAmount);
-  const cartId = useCartStore((state) => state.cartId);
 
   function handleAddToCart() {
     addProductToCart(product);

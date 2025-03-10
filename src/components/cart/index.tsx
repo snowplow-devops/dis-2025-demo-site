@@ -6,33 +6,20 @@ import { Recommendations } from "../recommendations";
 import { useEffect } from "react";
 import { trackCheckoutStepSpec } from "@/lib/tracking/snowplow";
 import { useUserStore } from "@/store/userStore";
+import { useRouter } from "next/router";
 
 export function Cart() {
+  const router = useRouter();
   const cartProducts = useCartStore((state) => state.cartProducts);
   const totalAmount = useCartStore((state) => state.totalAmount);
-  const cartId = useCartStore((state) => state.cartId);
-  const userId = useUserStore((state) => state.userId);
 
   async function handleCheckout() {
-    const res = await fetch("/api/checkout_session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        cartProducts,
-        totalAmount,
-        cartId,
-        userId,
-      }),
-    });
     trackCheckoutStepSpec({
       step: 2,
       payment_method: "card",
     });
-    const body = await res.json();
 
-    window.location.href = body.url;
+    router.push("/payment");
   }
 
   useEffect(() => {
