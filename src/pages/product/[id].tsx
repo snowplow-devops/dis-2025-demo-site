@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { config } from "@/config";
 import { trackTrackProductViewSpec } from "@/lib/tracking/snowplow";
+import { enableActivityTracking, disableActivityTracking } from "@snowplow/browser-tracker";
 
 export default function ProductPage() {
   const {
@@ -29,6 +30,15 @@ export default function ProductPage() {
       size: product.size,
       currency: config.store.DEFAULT_CURRENCY,
     });
+
+    enableActivityTracking({
+      minimumVisitLength: 10,
+      heartbeatDelay: 10
+    });
+
+    return () => {
+      disableActivityTracking();
+    };
   }, [product]);
 
   if (!product) {
