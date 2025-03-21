@@ -1,7 +1,7 @@
 import {
   addGlobalContexts,
   newTracker,
-  setUserId,
+  enableActivityTracking,
 } from "@snowplow/browser-tracker";
 import { SnowplowEcommercePlugin } from "@snowplow/browser-plugin-snowplow-ecommerce";
 import { PerformanceNavigationTimingPlugin } from "@snowplow/browser-plugin-performance-navigation-timing";
@@ -35,3 +35,7 @@ export const tracker = newTracker(
 );
 
 addGlobalContexts([addHotjarUserContext, addGitScmReleaseContext]);
+enableActivityTracking({
+  minimumVisitLength: 10,
+  heartbeatDelay: 10
+});
