@@ -34,12 +34,19 @@ export function Home() {
     trackInternalPromotionViewSpec(promoObject);
   }, [promoObject]);
 
+
+  function sendYourOwnEvent() {
+      // Send your own event
+      alert('You\'re sending your own custom event');
+  }
+
   return (
     <>
       <div className={styles.title}>
         <h1>Snowplow shoes</h1>
         <p>For best performing analysts</p>
-        <Link href={"/category/men-shoes"}>Get started</Link>
+        <Link href={"#"} onClick={sendYourOwnEvent}>Get your own Snowplow Event!</Link>
+
       </div>
       <div className={styles.bannerContainer}>
         <h2>{bannerTitle}</h2>

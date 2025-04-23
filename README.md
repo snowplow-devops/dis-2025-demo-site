@@ -1,21 +1,34 @@
-![snowplow-logo](.github/media/snowplow_event_generators.png)
+![snowplow-logo](.github/media/snowplow_logo.png)
 
 # Example Next.js Ecommerce Store for Snowplow
 
 [![License][license-image]][license]
 
-An example retail & ecommerce store, powered by Next.js and instrumented with Snowplow tracking.
+An example retail & ecommerce store, powered by Next.js and instrumented with partial Snowplow tracking.
 
-Includes:
-
-- Client-server stitched events
-- Wide coverage of Snowplow ecommerce events
 
 ## Running locally
 
 1. `npm install`
 2. Fill the environment variables required in a local env file. `cp .env.example .env.local`
 3. `npm run dev`
+
+
+## Where to start customising?
+
+There is already some partial Snowplow tracking added to this example Ecommerce store. Here are some file locations that you might like to play around with:
+
+#### src/lib/snowplow/snowplow.ts 
+- Update the tracker configuration settings with your own
+- Add automatic, out-of-the-box Page Pings, Link Clicks, Button Clicks and Form Tracking
+
+
+#### src/components/analytics/PageTracker.tsx
+- Enable automatic, out-of-the-box tracking with `tracker?.trackPageView();`
+- Store the User Id for a logged-in user
+
+#### src/components/home/index.tsx
+- Sending your own custom, self-describing event based on a Snowplow schema you define
 
 ## Project support
 

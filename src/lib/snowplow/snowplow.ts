@@ -35,7 +35,5 @@ export const tracker = newTracker(
 );
 
 addGlobalContexts([addHotjarUserContext, addGitScmReleaseContext]);
-enableActivityTracking({
-  minimumVisitLength: 10,
-  heartbeatDelay: 10
-});
+
+// Add Page Pings, Link Links, Button Clicks, Form Submission here

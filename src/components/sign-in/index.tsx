@@ -16,7 +16,9 @@ export function SignIn() {
     const isValidUser = mockUsers.find((user) => user.email === email);
     if (isValidUser) {
       setUser({ email: isValidUser.email, userId: isValidUser.userId });
-      tracker?.setUserId(isValidUser.userId);
+      // Can track a custom self-describing event for login
+      // tracker?.setUserId(isValidUser.userId);
+
       router.push(`/`);
     }
   };
