@@ -10,6 +10,7 @@ An example retail & ecommerce store, powered by Next.js and instrumented with pa
 
 1. `npm install`
 2. Fill the environment variables required in a local env file. `cp .env.example .env.local`
+  - Make sure to setup a unique `NEXT_PUBLIC_SNOWPLOW_APP_ID` for your team
 3. `npm run dev`
 
 ## Implementing tracking with Snowtype
