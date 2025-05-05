@@ -6,13 +6,27 @@
 
 An example retail & ecommerce store, powered by Next.js and instrumented with partial Snowplow tracking.
 
-
 ## Running locally
 
 1. `npm install`
 2. Fill the environment variables required in a local env file. `cp .env.example .env.local`
 3. `npm run dev`
 
+## Implementing tracking with Snowtype
+
+1. Export the `SNOWPLOW_CONSOLE_API_KEY` and `SNOWPLOW_CONSOLE_API_KEY_ID` variables in your environment
+  - Generate a key for yourself here: https://console.snowplowanalytics.com/88f3b704-a2fe-4fc4-86a5-8595641f8aa6/credentials
+2. Run `npx @snowplow/snowtype patch -p <your_data_product_id_here>`
+3. Run `npx @snowplow/snowtype generate`
+
+This will generate the code for your Data Product into `lib/tracking` - now you need to implement this function in the codebase to start tracking events!
+
+Search through the `src/components` to locate the logical place to implement your specific tracking call (like a "sign-in" event) and then:
+
+1. Import the associated tracking function `import { track<your_event>Spec } from "@/lib/tracking/snowplow";`
+2. Issue the `track<your_event>Spec` call to track that event
+
+With your site active locally navigate through the flow that you added tracking on and check that it issues the expected tracking calls.  If this has been done right you should see it show up in Snowflake within the next couple of seconds.
 
 ## Where to start customising?
 
@@ -21,11 +35,6 @@ There is already some partial Snowplow tracking added to this example Ecommerce 
 #### src/lib/snowplow/snowplow.ts 
 - Update the tracker configuration settings with your own
 - Add automatic, out-of-the-box Page Pings, Link Clicks, Button Clicks and Form Tracking
-
-
-#### src/components/analytics/PageTracker.tsx
-- Enable automatic, out-of-the-box tracking with `tracker?.trackPageView();`
-- Store the User Id for a logged-in user
 
 #### src/components/home/index.tsx
 - Sending your own custom, self-describing event based on a Snowplow schema you define
