@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSnowplowCookieValue } from "@/server/lib/snowplow/utils";
-import { trackSnowplowTransaction } from "@/server/lib/snowplow";
+// import { trackSnowplowTransaction } from "@/server/lib/snowplow";
 import { CheckoutSessionRequestBody } from "@/server/types";
 
 export default async function handler(
@@ -14,6 +14,7 @@ export default async function handler(
       const snowplowIdCookie = getSnowplowCookieValue(req.cookies);
 
       if (snowplowIdCookie) {
+        /**
         trackSnowplowTransaction({
           cartProducts,
           snowplowIdCookie,
@@ -21,6 +22,7 @@ export default async function handler(
           cartId,
           totalAmount,
         });
+        */
         res.json({ id: cartId, ok: true });
       }
     } catch (err) {

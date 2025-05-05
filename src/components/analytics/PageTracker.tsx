@@ -9,21 +9,20 @@ export function PageTracker() {
   const userId = useUserStore((state) => state.userId);
 
   useEffect(() => {
-    // We can store the User Id of a Logged-In User here
-    // setUserId(userId);
+    setUserId(userId);
   }, [userId]);
 
   useEffect(() => {
-      // Automatic Pageview here
+    tracker?.trackPageView();
 
     router.events.on("routeChangeComplete", () => {
-      // Automatic Pageview here
+      tracker?.trackPageView();
   });
 
     return () => {
       router.events.off("routeChangeComplete", () => {
-        // Automatic Pageview here
-  });
+        tracker?.trackPageView();
+      });
     };
   }, [router.events]);
 
