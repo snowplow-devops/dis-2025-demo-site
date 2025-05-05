@@ -2,7 +2,9 @@
   "igluCentralSchemas": [],
   "dataStructures": [],
   "eventSpecificationIds": [],
-  "dataProductIds": [],
+  "dataProductIds": [
+    "19e97ccb-e46b-4962-99dc-410efe61ce1c"
+  ],
   "organizationId": "88f3b704-a2fe-4fc4-86a5-8595641f8aa6",
   "tracker": "@snowplow/browser-tracker",
   "language": "typescript",
